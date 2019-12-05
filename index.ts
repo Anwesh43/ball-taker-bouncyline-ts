@@ -31,19 +31,22 @@ class ScaleUtil {
 class DrawingUtil {
 
     static drawCircle(context : CanvasRenderingContext2D, x : number, y : number, r : number) {
+        console.log("drawn circle")
         context.beginPath()
         context.arc(x, y, r, 0, 2 * Math.PI)
         context.fill()
     }
 
     static drawLine(context : CanvasRenderingContext2D, x1 : number, y1 : number, x2 : number, y2 : number) {
+        console.log("drawn line")
         context.beginPath()
         context.moveTo(x1, y1)
         context.lineTo(x2, y2)
         context.stroke()
     }
 
-    static drawBallBouncyLine(context : CanvasRenderingContext2D, scale : number, size : number, w : number) {
+    static drawBallBouncyLine(context : CanvasRenderingContext2D, scale : number, size : number) {
+        console.log("draw boucy line")
         const r : number = size / rFactor
         const sf : number = ScaleUtil.sinify(scale)
         const sc : number = ScaleUtil.cosify(ScaleUtil.divideScale(scale, 1, 2))
@@ -57,14 +60,15 @@ class DrawingUtil {
     }
 
     static drawBBLNode(context : CanvasRenderingContext2D, i : number, scale : number) {
-        const gap : number = w / (nodes + 1)
+        const gap : number = h / (nodes + 1)
         const size : number = gap / sizeFactor
         context.lineCap = 'round'
         context.lineWidth = Math.min(w, h) / strokeFactor
         context.strokeStyle = foreColor
+        context.fillStyle = foreColor
         context.save()
         context.translate(0, gap * (i + 1))
-        DrawingUtil.drawBallBouncyLine(context, scale, size, w)
+        DrawingUtil.drawBallBouncyLine(context, scale, size)
         context.restore()
     }
 }
@@ -155,7 +159,7 @@ class BBLNode {
     next : BBLNode
 
     constructor(private i : number) {
-
+        this.addNeighbor()
     }
 
     addNeighbor() {
