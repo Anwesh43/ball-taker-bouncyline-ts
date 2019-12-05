@@ -212,3 +212,25 @@ class BallTakerBouncyLine {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+
+    bbl : BallTakerBouncyLine = new BallTakerBouncyLine()
+    animator : Animator = new Animator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.bbl.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.bbl.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.bbl.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
